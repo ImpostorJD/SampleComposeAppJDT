@@ -12,8 +12,8 @@ I am able to apply the concepts I am learning.
 |------|------|
 | Frontend | Jetpack Compose |
 | Programming Language | Kotlin |
-| Database | Supabase |
-| Backend | Supabase |
+| Database | Appwrite |
+| Backend | Appwrite |
 | Version Control | Git and Github |
 | IDE | Android Studio |
 | ORM | Room ORM |
