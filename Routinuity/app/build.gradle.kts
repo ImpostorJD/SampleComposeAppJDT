@@ -42,6 +42,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
 }
 
 dependencies {
@@ -55,7 +56,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("io.appwrite:sdk-for-android:6.0.0")
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.0")
 
     // Choose one of the following:
     // Material Design 3

@@ -14,17 +14,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.jdt.routinuity.connection.AppwriteCon
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 
-import io.appwrite.Client
-import io.appwrite.services.Account
+import io.appwrite.services.Databases
 
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var databases : Databases
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
-
+        databases = AppwriteCon.getInstance(this).getDatabases()
         setContent {
             // Apply the theme to the entire screen
 
