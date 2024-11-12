@@ -21,5 +21,3 @@ I am able to apply the concepts I am learning.
 ## What to expect?
 Since this is a simple project, it will not be too complex. Feel free to comment out improvements and bugs that
 you may find. Criticisms and suggestions are welcomed :).
-
-##Test update
