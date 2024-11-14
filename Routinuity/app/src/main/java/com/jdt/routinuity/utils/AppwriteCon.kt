@@ -1,4 +1,4 @@
-package com.jdt.routinuity.connection
+package com.jdt.routinuity.utils
 
 import android.content.Context
 import android.util.Log

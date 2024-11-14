@@ -82,7 +82,7 @@ val Typography = Typography(
 @Composable
 fun RoutinuityTheme(darkTheme: Boolean = isSystemInDarkTheme(),
      content: @Composable () -> Unit) {
-    val colors = if (darkTheme) DarkColors else LightColors
+    val colors = LightColors
 
     MaterialTheme(
         colorScheme = colors,

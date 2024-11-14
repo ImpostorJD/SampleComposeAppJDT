@@ -25,11 +25,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.jdt.routinuity.R
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 
 @Composable
-fun SplashScreen(){
+fun SplashScreen(navController: NavController){
     Column (
         Modifier
             .fillMaxSize()
@@ -51,22 +54,22 @@ fun SplashScreen(){
         Spacer(modifier = Modifier.height(150.dp))
         Button(
             onClick = {
-
+                navController.navigate("auth/Login")
             },
             Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 25.dp),
+            contentPadding = PaddingValues(vertical = 15.dp),
             shape = RoundedCornerShape(25f)
         ) {
             Text(
                 "Login".uppercase(),
                 color = MaterialTheme.colorScheme.secondary,
-                style = TextStyle(fontSize =  25.sp),
+                style = TextStyle(fontSize =  15.sp),
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
-
+                navController.navigate("auth/Register")
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,7 +78,7 @@ fun SplashScreen(){
                     color = MaterialTheme.colorScheme.primary,
                     shape = RoundedCornerShape(25f)
                 ),
-            contentPadding = PaddingValues(vertical = 25.dp),
+            contentPadding = PaddingValues(vertical = 15.dp),
             shape = RoundedCornerShape(25f),
             colors = ButtonDefaults.buttonColors(
                 containerColor =  MaterialTheme.colorScheme.background, // Or your desired color
@@ -84,7 +87,7 @@ fun SplashScreen(){
         ) {
             Text(
                 text = "Sign Up".uppercase(),
-                style = TextStyle(fontSize = 25.sp),
+                style = TextStyle(fontSize = 15.sp),
             )
         }
 
@@ -94,7 +97,8 @@ fun SplashScreen(){
 @Preview
 @Composable
 fun SplashScreenView(){
+    val navController = rememberNavController()
     RoutinuityTheme {
-        SplashScreen()
+        SplashScreen(navController)
     }
 }

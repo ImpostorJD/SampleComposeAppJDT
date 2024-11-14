@@ -178,7 +178,7 @@ fun RadarChart(
             ) {
                 RadarChart(
                     data = listOf(
-                        listOf(0f, 0f, 50f, 100f, 10f) ,
+                        listOf(0f, 0f, 50f, 100f, 10f, 20f),
                     ),
                     labels = listOf(
                         "Label 1" to Color.Red,
@@ -186,6 +186,7 @@ fun RadarChart(
                         "Label 3" to Color.Blue,
                         "Label 4" to Color.Yellow,
                         "Label 5" to Color.Magenta,
+                        "Label 6" to Color.Cyan
                     ),
                     maxValue = 100f,
                     modifier = Modifier.fillMaxSize()
