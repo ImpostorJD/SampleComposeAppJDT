@@ -23,13 +23,13 @@ fun BlurredCircle(blurColor: Color) {
         Canvas(
             modifier = Modifier
                 .graphicsLayer {
-                    renderEffect = BlurEffect(radiusX = 180.dp.toPx(), radiusY = 180.dp.toPx())
+                    renderEffect = BlurEffect(radiusX = 50.dp.toPx(), radiusY = 50.dp.toPx())
                 }
                 .fillMaxSize()
         ) {
             val centerX = size.width / 2
             val centerY = size.height / 2
-            val radius = 500f
+            val radius = 100f
             drawCircle(
                 color = blurColor,
                 center = androidx.compose.ui.geometry.Offset(centerX, centerY),

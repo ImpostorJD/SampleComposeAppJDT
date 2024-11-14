@@ -5,6 +5,7 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,10 +19,12 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,14 +62,15 @@ fun RegisterScreen(onLoginClick: () -> Unit, navController: NavController) {
         }
         Box(
             modifier = Modifier
-                .height(500.dp)
-                .fillMaxWidth()
+                .fillMaxSize()
                 .align(Alignment.BottomCenter)
                 .offset(0.dp, 50.dp)
         ){
             BlurredCircle(blurColor = MaterialTheme.colorScheme.background)
         }
-        Column{
+        Column(
+            modifier =  Modifier.offset(0.dp, (1).dp)
+        ){
             Row(
                 modifier = Modifier
                     .height(70.dp)
@@ -141,6 +145,9 @@ fun RegisterScreen(onLoginClick: () -> Unit, navController: NavController) {
                         label = { Text(text = "Username", color = MaterialTheme.colorScheme.background) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = TextFieldDefaults.colors(
+                            cursorColor = MaterialTheme.colorScheme.background,
+                            focusedTextColor =  MaterialTheme.colorScheme.background,
+                            unfocusedTextColor = MaterialTheme.colorScheme.background,
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
                             disabledContainerColor = Color.Transparent,
@@ -156,9 +163,13 @@ fun RegisterScreen(onLoginClick: () -> Unit, navController: NavController) {
                         onValueChange = { value ->
                             email = value
                         },
+                        textStyle = TextStyle(color = MaterialTheme.colorScheme.background),
                         label = { Text(text = "Email", color = MaterialTheme.colorScheme.background) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = TextFieldDefaults.colors(
+                            cursorColor = MaterialTheme.colorScheme.background,
+                            focusedTextColor =  MaterialTheme.colorScheme.background,
+                            unfocusedTextColor = MaterialTheme.colorScheme.background,
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
                             disabledContainerColor = Color.Transparent,
@@ -174,10 +185,14 @@ fun RegisterScreen(onLoginClick: () -> Unit, navController: NavController) {
                         onValueChange = { value ->
                             password = value
                         },
+                        textStyle = TextStyle(color = MaterialTheme.colorScheme.background),
                         label = { Text(text = "Password", color = MaterialTheme.colorScheme.background) },
                         modifier = Modifier.fillMaxWidth(),
                         visualTransformation = PasswordVisualTransformation(),
                         colors = TextFieldDefaults.colors(
+                            cursorColor = MaterialTheme.colorScheme.background,
+                            focusedTextColor =  MaterialTheme.colorScheme.background,
+                            unfocusedTextColor = MaterialTheme.colorScheme.background,
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
                             disabledContainerColor = Color.Transparent,

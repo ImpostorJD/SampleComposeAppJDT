@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,8 +60,7 @@ fun LoginScreen(onSignUpClick: () -> Unit, navController: NavController) {
         }
         Box(
             modifier = Modifier
-                .height(500.dp)
-                .fillMaxWidth()
+                .fillMaxSize()
                 .align(Alignment.BottomCenter)
                 .offset(0.dp, 50.dp)
         ){
@@ -112,131 +112,173 @@ fun LoginScreen(onSignUpClick: () -> Unit, navController: NavController) {
                     direction =  TriangleDirection.Right
                 )
             }
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = MaterialTheme.colorScheme.background)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.Start
+                    .background(color = MaterialTheme.colorScheme.background),
             ) {
-                Text(
-                    text = "LOGIN",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(modifier = Modifier.height(50.dp))
-
-                TextField(
-                    value = email,
-                    onValueChange = { value ->
-                        email = value
-                    },
-                    label = { Text(text = "Email", color = MaterialTheme.colorScheme.primary) },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                        focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                        unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(25.dp))
-
-                TextField(
-                    value = password,
-                    onValueChange = { value ->
-                        password = value
-                    },
-                    label = { Text(text = "Password", color = MaterialTheme.colorScheme.primary) },
-                    modifier = Modifier.fillMaxWidth(),
-                    visualTransformation = PasswordVisualTransformation(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                        focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                        unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(25.dp))
-
-                Button(
-                    onClick
-                    = {},
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(25f),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.background
-                    )
-                ) {
-                    Text(text = "Login")
-                }
-
-                Spacer(modifier = Modifier.height(25.dp))
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 8.dp)
-                    )
-
-                    Text(
-                        text = "Or",
-                        color = Color.Black,
-                        modifier = Modifier.wrapContentSize(Alignment.Center)
-                    )
-
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 8.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(25.dp))
-
-                Button(
-                    onClick = {},
+                Row (
                     modifier = Modifier
+                        .height(100.dp)
                         .fillMaxWidth()
-                        .border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(25f)
-                        ),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.background,
-                        contentColor = MaterialTheme.colorScheme.primary,
+                        .align(Alignment.TopStart).padding(4.dp, 0.dp, 0.dp,0.dp)
+                        .offset(0.dp, (-1).dp),
+                ){
+                    RoundedRightTriangle(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f),
+                        color = MaterialTheme.colorScheme.primary,
+                        cornerRadius = 0.dp,
+                        direction =  TriangleDirection.Left,
+                        orientation = TriangleOrientation.UpsideDown
                     )
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_google),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
+                    // Align this triangle to the top left
+                    RoundedRightTriangle(
+                        color = MaterialTheme.colorScheme.background,
+                        orientation = TriangleOrientation.UpsideDown,
+                        modifier = Modifier
+                            .width(110.dp)
+                            .height(20.dp),
+                        cornerRadius = 0.dp
+                    )
+                }
+                Column(verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                    modifier =  Modifier.padding(16.dp)){
+                    Text(
+                        text = "LOGIN",
+                        color = MaterialTheme.colorScheme.background,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    TextField(
+                        value = email,
+                        onValueChange = { value ->
+                            email = value
+                        },
+                        textStyle = TextStyle(color = MaterialTheme.colorScheme.primary),
+                        label = { Text(text = "Email", color = MaterialTheme.colorScheme.primary) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.colors(
+                            cursorColor = MaterialTheme.colorScheme.primary,
+                            focusedTextColor =  MaterialTheme.colorScheme.primary,
+                            unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                            focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                            unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
                         )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        VerticalDivider(Modifier.height(20.dp))
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(text = "Continue with Google")
+                    )
+
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    TextField(
+                        value = password,
+                        onValueChange = { value ->
+                            password = value
+                        },
+                        textStyle = TextStyle(color = MaterialTheme.colorScheme.primary),
+                        label = { Text(text = "Password", color = MaterialTheme.colorScheme.primary) },
+                        modifier = Modifier.fillMaxWidth(),
+                        visualTransformation = PasswordVisualTransformation(),
+                        colors = TextFieldDefaults.colors(
+                            cursorColor = MaterialTheme.colorScheme.primary,
+                            focusedTextColor =  MaterialTheme.colorScheme.primary,
+                            unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                            focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                            unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    Button(
+                        onClick
+                        = {},
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(25f),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.background
+                        )
+                    ) {
+                        Text(text = "Login")
                     }
+
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        HorizontalDivider(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 8.dp)
+                        )
+
+                        Text(
+                            text = "Or",
+                            color = Color.Black,
+                            modifier = Modifier.wrapContentSize(Alignment.Center)
+                        )
+
+                        HorizontalDivider(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 8.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    Button(
+                        onClick = {},
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = RoundedCornerShape(25f)
+                            ),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.background,
+                            contentColor = MaterialTheme.colorScheme.primary,
+                        )
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_google),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            VerticalDivider(Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(text = "Continue with Google")
+                        }
+                }
+
+
+
+
+
+
+
                 }
             }
         }
