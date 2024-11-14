@@ -122,16 +122,17 @@ fun RadarChart(
             // Drawing the radar chart data points
             data.forEach { values ->
                 val points = values.mapIndexed { index, value ->
-                    val angle = Math.toRadians((angleStep * index + 90f).toDouble())
+                    val angle = Math.toRadians((angleStep * index - 90f).toDouble())
                     val scaledValue = (value / maxValue) * radius
                     Offset(
                         (centerX + scaledValue * cos(angle)).toFloat(),
-                        (centerY - scaledValue * sin(angle)).toFloat()
+                        (centerY + scaledValue * sin(angle)).toFloat() // Corrected Y computation
                     )
                 }
 
                 drawPolygonPath(points, statFill)
             }
+
         }
     }
 }
@@ -145,7 +146,7 @@ fun RadarChart(
         val angleStep = 360f / sides
         val path = Path().apply {
             for (i in 0 until sides) {
-                val angle = Math.toRadians((angleStep * i + 90).toDouble())
+                val angle = Math.toRadians((angleStep * i + 90f).toDouble())
                 val x = center.x + radius * cos(angle).toFloat()
                 val y = center.y - radius * sin(angle).toFloat()
                 if (i == 0) moveTo(x, y) else lineTo(x, y)
@@ -177,14 +178,14 @@ fun RadarChart(
             ) {
                 RadarChart(
                     data = listOf(
-                        listOf(0f, 0f, 50f, 100f, 10f),
+                        listOf(0f, 0f, 50f, 100f, 10f) ,
                     ),
                     labels = listOf(
                         "Label 1" to Color.Red,
                         "Label 2" to Color.Green,
                         "Label 3" to Color.Blue,
                         "Label 4" to Color.Yellow,
-                        "Label 5" to Color.Magenta
+                        "Label 5" to Color.Magenta,
                     ),
                     maxValue = 100f,
                     modifier = Modifier.fillMaxSize()
