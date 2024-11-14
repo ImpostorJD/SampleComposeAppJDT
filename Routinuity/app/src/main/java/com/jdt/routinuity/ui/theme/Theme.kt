@@ -12,11 +12,30 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 
+
 private val LightColors = lightColorScheme(
-    primary = Color(0xFF6200EE),
-    secondary = Color(0xFFE91E63),
-    background = Color(0xFFF5F5F5),
+    primary = Color(0xFF1b1b1b),
+    secondary = Color(0xFFf3f3f3),
+    background = Color(0xFFf3f3f3),
     surface = Color(0xFFFFFFFF),
+//    onPrimary = Color(0xFFFFFFFF),
+//    primaryContainer = Color(0xFFFFFFFF),
+//    onPrimaryContainer = Color(0xFFFFFFFF),
+//    inversePrimary = Color(0xFFFFFFFF),
+//    onSecondary = Color(0xFFFFFFFF),
+//    secondaryContainer = Color(0xFFFFFFFF),
+//    onSecondaryContainer = Color(0xFFFFFFFF),
+//    tertiary = Color(0xFFFFFFFF),
+//    onTertiary = Color(0xFFFFFFFF),
+//    tertiaryContainer = Color(0xFFFFFFFF),
+//    onTertiaryContainer = Color(0xFFFFFFFF),
+//    onBackground = Color(0xFFFFFFFF),
+//    onSurface = Color(0xFFFFFFFF),
+//    surfaceVariant = Color(0xFFFFFFFF),
+//    onSurfaceVariant = Color(0xFFFFFFFF),
+//    surfaceTint = Color(0xFFFFFFFF),
+//    inverseSurface = Color(0xFFFFFFFF),
+//    inverseOnSurface = Color(0xFFFFFFFF)
 )
 
 private val DarkColors = darkColorScheme(

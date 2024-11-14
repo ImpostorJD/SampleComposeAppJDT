@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +23,7 @@ import io.appwrite.services.Databases
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var databases : Databases
+    private lateinit var databases : Databases
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,7 @@ class MainActivity : ComponentActivity() {
                         .padding(all = 10.dp)
                 ){
                     Greetings("android")
+
                 }
             }
         }
@@ -49,14 +51,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greetings(name: String) {
     Text(
-        text = "$name",
+        name,
         color = MaterialTheme.colorScheme.secondary
     )
 }
 
 @Preview
 @Composable
-fun GreetingPreivew(){
+fun GreetingPreview(){
     RoutinuityTheme {
         Column (
             modifier = Modifier
