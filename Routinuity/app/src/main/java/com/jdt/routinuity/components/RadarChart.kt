@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
@@ -30,13 +31,13 @@ fun RadarChart(
     data: List<List<Float>>,
     labels: List<Pair<String, Color>>,
     maxValue: Float,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    lines: Color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.7f),
+    statFill: Color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f),
+    labelTextColor: Color = MaterialTheme.colorScheme.primary
 ) {
     val labelPositions = remember { mutableListOf<Offset>() }
     val selectedLabel = remember { mutableStateOf<String?>(null) }
-
-    val lines = MaterialTheme.colorScheme.secondary.copy(alpha = 0.7f)
-    val statFill = MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f)
 
     Box(modifier = modifier.fillMaxSize()) {
         Canvas(
@@ -110,7 +111,7 @@ fun RadarChart(
                             labelX,
                             labelY - 30f, // Adjust position for label
                             android.graphics.Paint().apply {
-                                color = android.graphics.Color.BLACK
+                                color = labelTextColor.toArgb()
                                 textSize = 40f
                                 textAlign = android.graphics.Paint.Align.CENTER
                             }
@@ -189,7 +190,10 @@ fun RadarChart(
                         "Label 6" to Color.Cyan
                     ),
                     maxValue = 100f,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    lines = Color.Red.copy(alpha = 0.7f),
+                    statFill = Color.Cyan.copy(alpha = 0.4f),
+                    labelTextColor = MaterialTheme.colorScheme.background
                 )
             }
 

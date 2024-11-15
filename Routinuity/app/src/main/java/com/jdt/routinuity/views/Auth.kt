@@ -63,7 +63,6 @@ fun AuthScreen(mode : String, navController: NavController) {
 fun AuthScreenPreview(){
     val navController = rememberNavController()
     RoutinuityTheme {
-
         AuthScreen("Login", navController)
     }
 }

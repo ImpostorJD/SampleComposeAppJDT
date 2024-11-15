@@ -68,7 +68,7 @@ dependencies {
     // such as input and measurement/layout
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.foundation:foundation")
-
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
