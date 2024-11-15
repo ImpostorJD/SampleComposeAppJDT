@@ -87,7 +87,6 @@ fun HabitCard(
                     .fillMaxHeight()
                     .weight(3f)
             ) {
-                // Show the progress percentage as an integer
                 Text("$progressPercentInt%", color = textColor)
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(label, color = textColor)

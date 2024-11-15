@@ -39,7 +39,7 @@ fun AuthScreen(mode : String, navController: NavController) {
                 fadeIn() togetherWith fadeOut() using SizeTransform { _, _ ->
                     tween(durationMillis = 300)
                 }
-            }
+            }, label = ""
         ) { targetLoginForm ->
             Box(
                 modifier = Modifier

@@ -1,13 +1,14 @@
 package com.jdt.routinuity.views
 
+import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,8 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,10 +33,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -46,6 +51,7 @@ import com.jdt.routinuity.components.BiDirectionalScrollableWeekCalendar
 import com.jdt.routinuity.components.BlurredCircle
 import com.jdt.routinuity.components.CategorySelector
 import com.jdt.routinuity.components.HabitCard
+import com.jdt.routinuity.components.ProgressCard
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -56,8 +62,8 @@ fun DashboardScreen(navController: NavController){
     val today = LocalDate.now()
     var selectedDay by remember { mutableStateOf(value = today) }
     var activeCategory by remember { mutableStateOf("Daily") }
-
     val formatter = DateTimeFormatter.ofPattern("dd, MMM yyyy")
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -138,39 +144,16 @@ fun DashboardScreen(navController: NavController){
 
                 Spacer(Modifier.height(10.dp).fillMaxWidth())
 
-                CategorySelector({value ->
+                CategorySelector { value ->
                     activeCategory = value
-                })
-
-                Spacer(Modifier.height(10.dp).fillMaxWidth())
-                Box(
-                    modifier = Modifier.padding(10.dp, 0.dp)
-                        .height(100.dp)
-                        .fillMaxWidth()
-                        .background(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(10.dp)
-                        ).clip(RoundedCornerShape(10)),
-
-                ){
-                    Box(
-                        modifier = Modifier
-                            .height(100.dp)
-                            .width(100.dp)
-                            .align(Alignment.TopStart)
-                            .offset((-100).dp, (-60).dp)
-                    ){
-                        BlurredCircle(blurColor = MaterialTheme.colorScheme.background)
-                    }
-                    Box(
-                        modifier = Modifier
-                            .height(100.dp)
-                            .width(100.dp)
-                            .align(Alignment.CenterEnd)
-                            .offset((80).dp, (-40).dp)
-                    ){
-                        BlurredCircle(blurColor = MaterialTheme.colorScheme.background)
-                    }
                 }
 
+                Spacer(Modifier.height(10.dp).fillMaxWidth())
+                ProgressCard(
+                    progress = 0.4f,
+                    background = MaterialTheme.colorScheme.primary,
+                    progressColor = MaterialTheme.colorScheme.background
+                )
                 Spacer(Modifier.height(10.dp).fillMaxWidth())
 
                 HabitCard(
