@@ -1,4 +1,4 @@
-package com.jdt.routinuity.components
+package com.jdt.routinuity.components.context
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
@@ -90,45 +90,19 @@ fun CategorySelector(
             .fillMaxWidth()
             .height(50.dp)
     ) {
-        CategoryButton(
-            modifier = Modifier.width(120.dp),
-            label = "Daily",
-            isActive = activeCategory == "Daily",
-            onClick = {
-                activeCategory = "Daily"
-                onCategoryChange?.invoke(activeCategory)
-            }
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        CategoryButton(
-            modifier = Modifier.width(120.dp),
-            label = "Weekly",
-            isActive = activeCategory == "Weekly",
-            onClick = {
-                activeCategory = "Weekly"
-                onCategoryChange?.invoke(activeCategory)
-            }
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        CategoryButton(
-            modifier = Modifier.width(120.dp),
-            label = "Monthly",
-            isActive = activeCategory == "Monthly",
-            onClick = {
-                activeCategory = "Monthly"
-                onCategoryChange?.invoke(activeCategory)
-            }
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        CategoryButton(
-            modifier = Modifier.width(120.dp),
-            label = "Custom",
-            isActive = activeCategory == "Custom",
-            onClick = {
-                activeCategory = "Custom"
-                onCategoryChange?.invoke(activeCategory)
-            }
-        )
+        listOf("Daily", "Weekly", "Monthly", "Custom").forEach { value ->
+            CategoryButton(
+                modifier = Modifier.width(120.dp),
+                label = value,
+                isActive = activeCategory == value,
+                onClick = {
+                    activeCategory = value
+                    onCategoryChange?.invoke(activeCategory)
+                }
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+        }
+
     }
 }
 

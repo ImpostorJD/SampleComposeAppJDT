@@ -1,4 +1,4 @@
-package com.jdt.routinuity.components
+package com.jdt.routinuity.components.shapes
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box

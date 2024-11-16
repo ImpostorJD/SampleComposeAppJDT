@@ -1,4 +1,4 @@
-package com.jdt.routinuity.components
+package com.jdt.routinuity.components.context
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent

@@ -46,7 +46,9 @@ fun RadarChart(
                     detectTapGestures { offset ->
                         var foundIndex: Int? = null
                         for (position in labelPositions) {
-                            val distance = (offset.x - position.x).pow(2) + (offset.y - position.y).pow(2)
+                            val distance =
+                                (offset.x - position.x).pow(2) +
+                                        (offset.y - position.y).pow(2)
                             if (distance <= 30f * 30f) {
                                 foundIndex = labelPositions.indexOf(position)
                                 break
@@ -55,7 +57,6 @@ fun RadarChart(
 
                         if (foundIndex != null && foundIndex < labels.size) {
                             val label = labels[foundIndex].first
-                            // Toggle label selection
                             selectedLabel.value = if (selectedLabel.value == label) null else label
                         }
                     }
@@ -66,7 +67,6 @@ fun RadarChart(
             val radius = minOf(centerX, centerY) * 0.8f
             val sides = labels.size
 
-            // Drawing concentric grid lines with composable context
             for (i in 1..sides) {
                 val stepRadius = radius * i / sides
                 drawPolygon(
@@ -79,7 +79,6 @@ fun RadarChart(
 
             val angleStep = 360f / sides
 
-            // Calculate label positions and draw lines
             labels.forEachIndexed { index, labelPair ->
                 val label = labelPair.first
                 val labelColor = labelPair.second
@@ -94,7 +93,10 @@ fun RadarChart(
                 drawLine(
                     color = lines,
                     start = Offset(centerX, centerY),
-                    end = Offset(centerX + radius * cos(angle).toFloat(), centerY + radius * sin(angle).toFloat()),
+                    end = Offset(
+                        centerX + radius * cos(angle).toFloat(),
+                        centerY + radius * sin(angle).toFloat()
+                    ),
                     strokeWidth = 5f
                 )
 
@@ -120,14 +122,13 @@ fun RadarChart(
                 }
             }
 
-            // Drawing the radar chart data points
             data.forEach { values ->
                 val points = values.mapIndexed { index, value ->
                     val angle = Math.toRadians((angleStep * index - 90f).toDouble())
                     val scaledValue = (value / maxValue) * radius
                     Offset(
                         (centerX + scaledValue * cos(angle)).toFloat(),
-                        (centerY + scaledValue * sin(angle)).toFloat() // Corrected Y computation
+                        (centerY + scaledValue * sin(angle)).toFloat()
                     )
                 }
 
@@ -138,64 +139,63 @@ fun RadarChart(
     }
 }
 
-    fun DrawScope.drawPolygon(
-        center: Offset,
-        radius: Float,
-        sides: Int,
-        color: Color
-    ) {
-        val angleStep = 360f / sides
-        val path = Path().apply {
-            for (i in 0 until sides) {
-                val angle = Math.toRadians((angleStep * i + 90f).toDouble())
-                val x = center.x + radius * cos(angle).toFloat()
-                val y = center.y - radius * sin(angle).toFloat()
-                if (i == 0) moveTo(x, y) else lineTo(x, y)
-            }
-            close()
+fun DrawScope.drawPolygon(
+    center: Offset,
+    radius: Float,
+    sides: Int,
+    color: Color
+) {
+    val angleStep = 360f / sides
+    val path = Path().apply {
+        for (i in 0 until sides) {
+            val angle = Math.toRadians((angleStep * i + 90f).toDouble())
+            val x = center.x + radius * cos(angle).toFloat()
+            val y = center.y - radius * sin(angle).toFloat()
+            if (i == 0) moveTo(x, y) else lineTo(x, y)
         }
-        drawPath(path, color = color, style = Stroke(width = 5f))
+        close()
     }
+    drawPath(path, color = color, style = Stroke(width = 5f))
+}
 
-    fun DrawScope.drawPolygonPath(points: List<Offset>, color: Color) {
-        val path = Path().apply {
-            points.forEachIndexed { index, point ->
-                if (index == 0) moveTo(point.x, point.y)
-                else lineTo(point.x, point.y)
-            }
-            close()
+fun DrawScope.drawPolygonPath(points: List<Offset>, color: Color) {
+    val path = Path().apply {
+        points.forEachIndexed { index, point ->
+            if (index == 0) moveTo(point.x, point.y)
+            else lineTo(point.x, point.y)
         }
-        drawPath(path, color, style = Fill)
+        close()
     }
+    drawPath(path, color, style = Fill)
+}
 
-    @Preview(showBackground = true)
-    @Composable
-    fun RadarSampleView() {
-        RoutinuityTheme {
-            Column(
-                modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.primary)
-                    .fillMaxSize()
-            ) {
-                RadarChart(
-                    data = listOf(
-                        listOf(0f, 0f, 50f, 100f, 10f, 20f),
-                    ),
-                    labels = listOf(
-                        "Label 1" to Color.Red,
-                        "Label 2" to Color.Green,
-                        "Label 3" to Color.Blue,
-                        "Label 4" to Color.Yellow,
-                        "Label 5" to Color.Magenta,
-                        "Label 6" to Color.Cyan
-                    ),
-                    maxValue = 100f,
-                    modifier = Modifier.fillMaxSize(),
-                    lines = Color.Red.copy(alpha = 0.7f),
-                    statFill = Color.Cyan.copy(alpha = 0.4f),
-                    labelTextColor = MaterialTheme.colorScheme.background
-                )
-            }
-
+@Preview(showBackground = true)
+@Composable
+fun RadarSampleView() {
+    RoutinuityTheme {
+        Column(
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.primary)
+                .fillMaxSize()
+        ) {
+            RadarChart(
+                data = listOf(
+                    listOf(0f, 0f, 50f, 100f, 10f, 20f)
+                ),
+                labels = listOf(
+                    "Label 1" to Color.Red,
+                    "Label 2" to Color.Green,
+                    "Label 3" to Color.Blue,
+                    "Label 4" to Color.Yellow,
+                    "Label 5" to Color.Magenta,
+                    "Label 6" to Color.Cyan
+                ),
+                maxValue = 100f,
+                modifier = Modifier.fillMaxSize(),
+                lines = Color.Red.copy(alpha = 0.7f),
+                statFill = Color.Cyan.copy(alpha = 0.4f),
+                labelTextColor = MaterialTheme.colorScheme.background
+            )
         }
     }
+}

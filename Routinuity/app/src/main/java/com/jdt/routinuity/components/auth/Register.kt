@@ -1,4 +1,4 @@
-package com.jdt.routinuity.components
+package com.jdt.routinuity.components.auth
 
 import RoundedRightTriangle
 import androidx.compose.foundation.background
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.jdt.routinuity.components.shapes.BlurredCircle
 
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 

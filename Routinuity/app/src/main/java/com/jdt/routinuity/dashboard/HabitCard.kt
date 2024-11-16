@@ -1,7 +1,8 @@
-package com.jdt.routinuity.components
+package com.jdt.routinuity.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -35,7 +37,6 @@ import com.jdt.routinuity.ui.theme.RoutinuityTheme
 
 @Composable
 fun HabitCard(
-    modifier: Modifier = Modifier,
     progressColor: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
     progress: Int,
     textColor: Color = MaterialTheme.colorScheme.primary,
@@ -45,6 +46,7 @@ fun HabitCard(
     label: String,
     requirement: Int,
     delimiter: String,
+    onClick: () -> Unit
 ) {
     val progressPercent = (progress.toFloat() / requirement.toFloat()).coerceIn(0f, 1f)
 
@@ -62,6 +64,11 @@ fun HabitCard(
             )
             .height(120.dp)
             .clip(RoundedCornerShape(25f))
+            .pointerInput(Unit){
+                detectTapGestures {
+                   onClick.invoke()
+                }
+            }
     ) {
         val maxSizePx = with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
 
@@ -103,7 +110,7 @@ fun HabitCard(
             ) {
                 Text(
                     if (progress == requirement) "Finished" else "In Progress",
-                    color = hintColor,
+                    color =  if (progress == requirement) textColor else hintColor,
                     style = TextStyle(fontSize = 10.sp)
                 )
                 Icon(
@@ -127,7 +134,7 @@ fun HabitCard(
                     Text(
                         delimiter,
                         color = textColor,
-                        style = TextStyle(fontSize = 15.sp)
+                        style = TextStyle(fontSize = 13.sp)
                     )
                 }
             }
@@ -145,7 +152,8 @@ fun HabitCardPreview() {
             icon = R.drawable.ic_quantity,
             label = "Escape the Matrix",
             requirement = 3,
-            delimiter = "Pages"
+            delimiter = "Pages",
+            onClick = {}
         )
     }
 }

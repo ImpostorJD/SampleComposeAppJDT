@@ -1,4 +1,4 @@
-package com.jdt.routinuity.components
+package com.jdt.routinuity.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jdt.routinuity.R
+import com.jdt.routinuity.components.shapes.BlurredCircle
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 
 @Composable
@@ -90,7 +91,7 @@ fun ProgressCard(
                 Text("Daily Goals",
                     style = TextStyle(
                         color = progressColor,
-                        fontSize = 20.sp,
+                        fontSize = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -144,7 +145,7 @@ fun ProgressCard(
                 }
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    "20%",
+                    "${(progress * 100).toInt()}%",
                     modifier = Modifier
                         .fillMaxWidth(),
                     style = TextStyle(

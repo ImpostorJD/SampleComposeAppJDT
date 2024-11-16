@@ -1,4 +1,4 @@
-package com.jdt.routinuity.components
+package com.jdt.routinuity.dashboard
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
@@ -31,8 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun BiDirectionalScrollableWeekCalendar(
     modifier: Modifier = Modifier,
-    textColor: Color = Color.White,
-    activeColor: Color = Color.Black,
+    textColor: Color = MaterialTheme.colorScheme.background,
+    activeColor: Color = MaterialTheme.colorScheme.primary,
     initialSelectedDay: LocalDate,
     onClick: ((LocalDate) -> Unit)? = null,
 ) {
