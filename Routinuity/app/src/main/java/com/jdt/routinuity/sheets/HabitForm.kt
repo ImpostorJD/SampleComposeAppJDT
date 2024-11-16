@@ -52,7 +52,7 @@ fun HabitForm(
     labels: List<Pair<String, Color>>,
 ) {
 
-    var selectedCategory by remember { mutableStateOf("Custom") }
+    var selectedCategory by remember { mutableStateOf("Daily") }
     var selectedArea by remember { mutableStateOf("") }
     var selectedType by remember { mutableStateOf("Quantity") }
     var habitTitle by remember { mutableStateOf("") }
