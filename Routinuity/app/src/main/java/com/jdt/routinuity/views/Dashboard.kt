@@ -23,6 +23,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -33,7 +35,7 @@ import com.jdt.routinuity.components.context.CategorySelector
 import com.jdt.routinuity.dashboard.HabitCard
 import com.jdt.routinuity.dashboard.MenuFloat
 import com.jdt.routinuity.dashboard.ProgressCard
-import com.jdt.routinuity.experimental.HabitForm
+import com.jdt.routinuity.sheets.HabitForm
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -79,6 +81,7 @@ fun DashboardScreen(navController: NavController){
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(0.dp)
+                            .nestedScroll(rememberNestedScrollInteropConnection())
                     ) {
                         when {
                             (modalView == "habit-form") -> {
@@ -120,9 +123,12 @@ fun DashboardScreen(navController: NavController){
 
                 Spacer(Modifier.height(10.dp).fillMaxWidth())
 
-                CategorySelector { value ->
-                    activeCategory = value
-                }
+                CategorySelector(
+                    onCategoryChange =  {value ->
+                        activeCategory = value
+                    },
+                    defautlActiveCategory = activeCategory
+                )
 
                 Spacer(Modifier.height(10.dp).fillMaxWidth())
                 ProgressCard(

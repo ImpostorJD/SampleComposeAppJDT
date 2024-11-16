@@ -1,27 +1,21 @@
-package com.jdt.routinuity.experimental
+package com.jdt.routinuity.sheets
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -36,9 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -46,10 +38,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jdt.routinuity.R
-import com.jdt.routinuity.components.context.CategoryButton
 import com.jdt.routinuity.components.context.CategorySelector
+import com.jdt.routinuity.components.habitform.DaysCustomSelectionButton
 import com.jdt.routinuity.components.habitform.FieldButton
-import com.jdt.routinuity.components.habitform.RequirementsButton
+import com.jdt.routinuity.components.habitform.RequirementsSelection
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 
 @Composable
@@ -59,9 +51,28 @@ fun HabitForm(
     targetId: Int? = null,
     labels: List<Pair<String, Color>>,
 ) {
-    var selectedCategory by remember { mutableStateOf("Daily") }
+
+    var selectedCategory by remember { mutableStateOf("Custom") }
     var selectedArea by remember { mutableStateOf("") }
     var selectedType by remember { mutableStateOf("Quantity") }
+    var habitTitle by remember { mutableStateOf("") }
+
+    var requirementsAmount by remember { mutableStateOf("") }
+    var delimiter by remember { mutableStateOf("") }
+
+    var customDays by remember {
+        mutableStateOf(
+            mapOf(
+                "Sun" to false,
+                "Mon" to false,
+                "Tue" to false,
+                "Wed" to false,
+                "Thu" to false,
+                "Fri" to false,
+                "Sat" to false,
+            )
+        )
+    }
 
     Column (modifier = Modifier
         .fillMaxSize()
@@ -79,7 +90,7 @@ fun HabitForm(
                onClick = {
                    onCollapse.invoke()
                },
-               Modifier.size(50.dp),
+               Modifier.size(40.dp),
                contentPadding = PaddingValues(10.dp),
                colors = ButtonDefaults.buttonColors(
                    containerColor =  Color.Transparent,
@@ -101,6 +112,7 @@ fun HabitForm(
                    fontWeight = FontWeight.Bold
                )
            )
+
            if(targetId != null){
                Button(
                    onClick = {
@@ -120,15 +132,17 @@ fun HabitForm(
                }
            }
        }
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-
         ){
             item {
                 TextField(
-                    value = "",
-                    onValueChange = { },
+                    value = habitTitle,
+                    onValueChange = { value ->
+                        habitTitle = value
+                    },
                     textStyle = TextStyle(color = MaterialTheme.colorScheme.primary),
                     label = { Text(text = "Habit Title", color = MaterialTheme.colorScheme.primary) },
                     modifier = Modifier
@@ -194,15 +208,40 @@ fun HabitForm(
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
-                CategorySelector { value ->
-                    selectedCategory = value
-                }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                CategorySelector (
+                    onCategoryChange = { value ->
+                        selectedCategory = value
+                    },
+                    defautlActiveCategory = selectedCategory
+                )
 
+                Spacer(modifier = Modifier.height(30.dp))
                 if(selectedCategory == "Custom"){
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp, 0.dp)
+                            .height(30.dp),
+                        verticalAlignment = Alignment.CenterVertically,
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    ) {
+                        customDays.forEach { (day, isActive) ->
+                            DaysCustomSelectionButton(
+                                modifier = Modifier.weight(1f),
+                                label = day,
+                                isActive = isActive,
+                                onClick = {
+                                    customDays = customDays.toMutableMap().apply {
+                                        this[day] = !isActive
+                                    }
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(5.dp))
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(30.dp))
                 }
 
                 Text(
@@ -214,45 +253,18 @@ fun HabitForm(
                         fontWeight = FontWeight.Bold
                     )
                 )
-                Spacer(modifier = Modifier.height(10.dp))
-                Column (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp, 0.dp)
-                ){
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(130.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        listOf("Quantity", "Timer", "Repetition").forEach { type ->
-                            RequirementsButton(
-                                modifier = Modifier.weight(1f),
-                                label = type,
-                                isActive = (type == selectedType),
-                                onClick = {
-                                    selectedType = type
-                                },
-                                inactiveContentColor = MaterialTheme.colorScheme.inversePrimary,
-                                inactiveContainerColor = Color.Transparent,
-                                activeContentColor = MaterialTheme.colorScheme.background,
-                                activeContainerColor = MaterialTheme.colorScheme.primary,
-                                icon = when (type) {
-                                    "Quantity" -> R.drawable.ic_quantity
-                                    "Timer" -> R.drawable.ic_timer
-                                    "Repetition" -> R.drawable.ic_repetition
-                                    else -> R.drawable.ic_quantity
-                                }
-                            )
-                            Spacer(modifier = Modifier.width(5.dp))
-                        }
-                    }
-                    Row{
 
-                    }
-                }
                 Spacer(modifier = Modifier.height(10.dp))
+                RequirementsSelection(
+                    toggleRequirements = { selectedType = it },
+                    changeDelimiter = { delimiter = it },
+                    delimiter = delimiter,
+                    selectedType = selectedType,
+                    requirements = requirementsAmount,
+                    toggleRequirementsAmount = { requirementsAmount = it }
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+
                 Button(
                     onClick = {},
                     modifier = Modifier
