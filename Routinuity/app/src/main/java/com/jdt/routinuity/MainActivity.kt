@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.jdt.routinuity.components.context.Navigation
 import com.jdt.routinuity.utils.AppwriteCon
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 import com.jdt.routinuity.views.DashboardScreen
@@ -27,6 +28,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         actionBar?.hide()
+
         databases = AppwriteCon.getInstance(this).getDatabases()
         setContent {
             App()
@@ -36,10 +38,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
-    val navController = rememberNavController()
-    BackHandler(enabled = true) {
-
-    }
 
     RoutinuityTheme {
         Column (
@@ -48,8 +46,7 @@ fun App() {
                 .fillMaxWidth()
                 .fillMaxHeight()
         ){
-//            Navigation()
-            DashboardScreen(navController)
+            Navigation()
         }
     }
 }

@@ -35,6 +35,7 @@ import com.jdt.routinuity.components.context.CategorySelector
 import com.jdt.routinuity.dashboard.HabitCard
 import com.jdt.routinuity.dashboard.MenuFloat
 import com.jdt.routinuity.dashboard.ProgressCard
+import com.jdt.routinuity.sheets.SettingSheet
 import com.jdt.routinuity.sheets.Profile
 import com.jdt.routinuity.sheets.HabitForm
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
@@ -104,6 +105,15 @@ fun DashboardScreen(navController: NavController) {
                                 Profile(
                                     onCollapse = { collapseModal() },
                                     setView = { modalView = it },
+                                )
+                            }
+
+                            "settings" -> {
+                                SettingSheet(
+                                    onCollapse = { collapseModal() },
+                                    logout = {
+                                        navController.navigate("splash")
+                                    }
                                 )
                             }
                         }

@@ -130,7 +130,6 @@ fun LoginScreen(onSignUpClick: () -> Unit, navController: NavController) {
                         direction =  TriangleDirection.Left,
                         orientation = TriangleOrientation.UpsideDown
                     )
-                    // Align this triangle to the top left
                     RoundedRightTriangle(
                         color = MaterialTheme.colorScheme.background,
                         orientation = TriangleOrientation.UpsideDown,
@@ -198,8 +197,7 @@ fun LoginScreen(onSignUpClick: () -> Unit, navController: NavController) {
                     Spacer(modifier = Modifier.height(25.dp))
 
                     Button(
-                        onClick
-                        = {},
+                        onClick = { navController.navigate("dashboard") },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(25f),
                         colors = ButtonDefaults.buttonColors(
@@ -268,13 +266,7 @@ fun LoginScreen(onSignUpClick: () -> Unit, navController: NavController) {
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(text = "Continue with Google")
                         }
-                }
-
-
-
-
-
-
+                    }
 
                 }
             }

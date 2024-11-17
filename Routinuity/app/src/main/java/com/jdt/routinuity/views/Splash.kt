@@ -81,8 +81,8 @@ fun SplashScreen(navController: NavController){
             contentPadding = PaddingValues(vertical = 15.dp),
             shape = RoundedCornerShape(25f),
             colors = ButtonDefaults.buttonColors(
-                containerColor =  MaterialTheme.colorScheme.background, // Or your desired color
-                contentColor = MaterialTheme.colorScheme.primary // Text color
+                containerColor =  MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.primary
             )
         ) {
             Text(
