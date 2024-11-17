@@ -1,4 +1,5 @@
 package com.jdt.routinuity
 
-class Constants {
-}
+import java.time.format.DateTimeFormatter
+
+val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd, MMM yyyy")

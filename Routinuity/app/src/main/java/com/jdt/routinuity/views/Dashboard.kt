@@ -35,6 +35,7 @@ import com.jdt.routinuity.components.context.CategorySelector
 import com.jdt.routinuity.dashboard.HabitCard
 import com.jdt.routinuity.dashboard.MenuFloat
 import com.jdt.routinuity.dashboard.ProgressCard
+import com.jdt.routinuity.sheets.Profile
 import com.jdt.routinuity.sheets.HabitForm
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 import kotlinx.coroutines.launch
@@ -43,58 +44,52 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(navController: NavController){
-
+fun DashboardScreen(navController: NavController) {
     val today = LocalDate.now()
-
-    var selectedDay by remember { mutableStateOf(value = today) }
+    var selectedDay by remember { mutableStateOf(today) }
     var activeCategory by remember { mutableStateOf("Daily") }
-
     var showModalForm by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-    )
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var modalView by remember { mutableStateOf("") }
     var targetHabit by remember { mutableIntStateOf(-1) }
 
     val scope = rememberCoroutineScope()
 
+    fun collapseModal() {
+        scope.launch { sheetState.hide() }.invokeOnCompletion {
+            if (!sheetState.isVisible) {
+                showModalForm = false
+                modalView = ""
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                color = MaterialTheme.colorScheme.background
-            )
-    ){
-        LazyColumn (
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item{
+            item {
                 if (showModalForm) {
                     ModalBottomSheet(
-                        onDismissRequest = {
-                            showModalForm = false
-                        },
+                        onDismissRequest = { showModalForm = false },
+                        containerColor = MaterialTheme.colorScheme.background,
                         sheetState = sheetState,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(0.dp)
                             .nestedScroll(rememberNestedScrollInteropConnection())
                     ) {
-                        when {
-                            (modalView == "habit-form") -> {
+                        when (modalView) {
+                            "habit-form" -> {
                                 val item = if (targetHabit != -1) targetHabit else null
                                 HabitForm(
-                                    onCollapse = {
-                                        scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                            if (!sheetState.isVisible) {
-                                                showModalForm = false
-                                                modalView = ""
-                                            }
-                                        }
-                                    },
+                                    onCollapse = { collapseModal() },
                                     targetId = item,
                                     labels = listOf(
                                         "Label 1" to Color.Red,
@@ -105,8 +100,13 @@ fun DashboardScreen(navController: NavController){
                                     ),
                                 )
                             }
+                            "profile" -> {
+                                Profile(
+                                    onCollapse = { collapseModal() },
+                                    setView = { modalView = it },
+                                )
+                            }
                         }
-
                     }
                 }
 
@@ -116,31 +116,32 @@ fun DashboardScreen(navController: NavController){
                     textColor = MaterialTheme.colorScheme.background,
                     backgroundColor = MaterialTheme.colorScheme.primary,
                     name = "John Doe",
-                    changeSelectedDay = { value ->
-                        selectedDay = value
-                    }
+                    changeSelectedDay = { value -> selectedDay = value }
                 )
 
                 Spacer(Modifier.height(10.dp).fillMaxWidth())
 
                 CategorySelector(
-                    onCategoryChange =  {value ->
-                        activeCategory = value
-                    },
+                    onCategoryChange = { value -> activeCategory = value },
                     defautlActiveCategory = activeCategory
                 )
 
                 Spacer(Modifier.height(10.dp).fillMaxWidth())
+
                 ProgressCard(
                     progress = 0.4f,
                     background = MaterialTheme.colorScheme.primary,
                     progressColor = MaterialTheme.colorScheme.background
                 )
+
                 Spacer(Modifier.height(10.dp).fillMaxWidth())
 
                 for (i in 1..5) {
-
-                    val icons = intArrayOf(R.drawable.ic_quantity, R.drawable.ic_repetition, R.drawable.ic_timer)
+                    val icons = intArrayOf(
+                        R.drawable.ic_quantity,
+                        R.drawable.ic_repetition,
+                        R.drawable.ic_timer
+                    )
                     val delimiters = arrayOf("Quantity", "Times", "Minutes")
                     val randomIndex = Random.nextInt(0, icons.size - 1)
                     val progress = Random.nextInt(0, 10)
@@ -161,7 +162,6 @@ fun DashboardScreen(navController: NavController){
                     Spacer(Modifier.height(10.dp).fillMaxWidth())
                 }
             }
-
         }
 
         Box(
@@ -169,7 +169,7 @@ fun DashboardScreen(navController: NavController){
                 .align(Alignment.BottomStart)
                 .fillMaxWidth()
                 .height(50.dp)
-        ){
+        ) {
             MenuFloat(
                 onMenuClick = { page ->
                     showModalForm = true
@@ -179,7 +179,6 @@ fun DashboardScreen(navController: NavController){
                 foregroundColor = MaterialTheme.colorScheme.background
             )
         }
-
     }
 }
 

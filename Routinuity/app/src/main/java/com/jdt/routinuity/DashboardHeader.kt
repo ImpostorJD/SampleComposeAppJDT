@@ -42,7 +42,6 @@ fun DashboardHeader(
     name: String,
     changeSelectedDay: (LocalDate) -> Unit
 ){
-    val formatter = DateTimeFormatter.ofPattern("dd, MMM yyyy")
 
     Box(
         modifier = Modifier

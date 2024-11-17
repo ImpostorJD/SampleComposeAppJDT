@@ -38,8 +38,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jdt.routinuity.R
+import com.jdt.routinuity.components.CustomHeaderSheet
 import com.jdt.routinuity.components.context.CategorySelector
-import com.jdt.routinuity.components.habitform.DaysCustomSelectionButton
+import com.jdt.routinuity.components.habitform.CustomDaysSelection
 import com.jdt.routinuity.components.habitform.FieldButton
 import com.jdt.routinuity.components.habitform.RequirementsSelection
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
@@ -47,7 +48,6 @@ import com.jdt.routinuity.ui.theme.RoutinuityTheme
 @Composable
 fun HabitForm(
     onCollapse:() -> Unit,
-    icon: Int = R.drawable.ic_chevron_down,
     targetId: Int? = null,
     labels: List<Pair<String, Color>>,
 ) {
@@ -80,59 +80,31 @@ fun HabitForm(
             color = MaterialTheme.colorScheme.background
         ),
     ){
-       Row(
-           modifier = Modifier
-               .fillMaxWidth()
-               .height(60.dp),
-            verticalAlignment = Alignment.CenterVertically
-       ){
-           Button(
-               onClick = {
-                   onCollapse.invoke()
-               },
-               Modifier.size(40.dp),
-               contentPadding = PaddingValues(10.dp),
-               colors = ButtonDefaults.buttonColors(
-                   containerColor =  Color.Transparent,
-                   contentColor = MaterialTheme.colorScheme.primary,
-               ),
-           ) {
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = "",
-                )
-           }
-           Text(
-               if(targetId == null) "Add habit" else "Edit Habit",
-               modifier = Modifier
-                   .fillMaxWidth(),
-               style = TextStyle(
-                   color = MaterialTheme.colorScheme.primary,
-                   fontSize = 25.sp,
-                   fontWeight = FontWeight.Bold
-               )
-           )
 
-           if(targetId != null){
-               Button(
-                   onClick = {
-                       onCollapse.invoke()
-                   },
-                   Modifier.size(50.dp),
-                   contentPadding = PaddingValues(10.dp),
-                   colors = ButtonDefaults.buttonColors(
-                       containerColor =  Color.Transparent,
-                       contentColor = MaterialTheme.colorScheme.primary,
-                   ),
-               ) {
-                   Icon(
-                       painter = painterResource(id = R.drawable.ic_trash),
-                       contentDescription = "",
-                   )
-               }
-           }
-       }
-
+        CustomHeaderSheet(
+            onCollapse = onCollapse,
+            title = if(targetId == null) "Add habit" else "Edit Habit",
+            rightIcon = {
+                if(targetId != null){
+                    Button(
+                        onClick = {
+                            onCollapse.invoke()
+                        },
+                        Modifier.size(50.dp),
+                        contentPadding = PaddingValues(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor =  Color.Transparent,
+                            contentColor = MaterialTheme.colorScheme.primary,
+                        ),
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_trash),
+                            contentDescription = "",
+                        )
+                    }
+                }
+            }
+        )
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -217,33 +189,18 @@ fun HabitForm(
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))
-                if(selectedCategory == "Custom"){
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp, 0.dp)
-                            .height(30.dp),
-                        verticalAlignment = Alignment.CenterVertically,
 
-                    ) {
-                        customDays.forEach { (day, isActive) ->
-                            DaysCustomSelectionButton(
-                                modifier = Modifier.weight(1f),
-                                label = day,
-                                isActive = isActive,
-                                onClick = {
-                                    customDays = customDays.toMutableMap().apply {
-                                        this[day] = !isActive
-                                    }
-                                }
-                            )
-                            Spacer(modifier = Modifier.width(5.dp))
+                CustomDaysSelection(
+                    customDays = customDays,
+                    category = selectedCategory,
+                    onDayToggle = { day ->
+                        customDays = customDays.toMutableMap().apply {
+                            this[day] = !this[day]!!
                         }
                     }
+                )
 
-                    Spacer(modifier = Modifier.height(30.dp))
-                }
-
+                Spacer(modifier = Modifier.height(30.dp))
                 Text(
                     modifier = Modifier.padding(20.dp, 0.dp),
                     text = "Requirements",
@@ -263,6 +220,7 @@ fun HabitForm(
                     requirements = requirementsAmount,
                     toggleRequirementsAmount = { requirementsAmount = it }
                 )
+
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Button(
