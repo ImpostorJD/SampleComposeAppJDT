@@ -59,11 +59,9 @@ fun Profile(
     var visibleItems = remember { mutableStateListOf<Pair<String, String>>() }
 
     LaunchedEffect(Unit) {
-        Log.d("debug","LaunchedEffect triggered")
 
         userInfo.forEach { pair ->
             visibleItems.add(pair)
-            Log.d("debug","adds ${pair.first}")
 
             delay(300)
         }
