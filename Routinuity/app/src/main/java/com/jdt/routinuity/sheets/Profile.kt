@@ -58,6 +58,8 @@ fun Profile(
 
     var visibleItems = remember { mutableStateListOf<Pair<String, String>>() }
 
+    var editProfile = false
+
     LaunchedEffect(Unit) {
 
         userInfo.forEach { pair ->
@@ -77,46 +79,56 @@ fun Profile(
             onCollapse = onCollapse,
             title = "Profile",
             rightIcon = {
-                Button(
-                    onClick = {
-                        setView("edit-profile")
-                    },
-                    Modifier.size(50.dp),
-                    contentPadding = PaddingValues(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor =  Color.Transparent,
-                        contentColor = MaterialTheme.colorScheme.primary,
-                    ),
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_edit),
-                        contentDescription = "",
+                if(!editProfile){
+                    Button(
+                        onClick = {
+                            editProfile = true
+                        },
+                        Modifier.size(50.dp),
+                        contentPadding = PaddingValues(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor =  Color.Transparent,
+                            contentColor = MaterialTheme.colorScheme.primary,
+                        ),
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_edit),
+                            contentDescription = "",
+                        )
+                    }
+                }else{
+
+                }
+
+            }
+        )
+        if(!editProfile){
+            LazyColumn (
+                modifier =  Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(MaterialTheme.colorScheme.background)
+            ){
+                item {
+                    ProfileStat(
+                        data = data,
+                        labels = labels,
+                        maxValue = maxValue
+                    )
+                    Spacer(Modifier.height(5.dp).fillMaxWidth())
+
+                }
+                items(visibleItems) { pair ->
+                    ProfileInformationStrip(
+                        pair.first,
+                        pair.second,
                     )
                 }
             }
-        )
-        LazyColumn (
-            modifier =  Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .background(MaterialTheme.colorScheme.background)
-        ){
-            item {
-                ProfileStat(
-                    data = data,
-                    labels = labels,
-                    maxValue = maxValue
-                )
-                Spacer(Modifier.height(5.dp).fillMaxWidth())
+        }else{
 
-            }
-            items(visibleItems) { pair ->
-                ProfileInformationStrip(
-                    pair.first,
-                    pair.second,
-                )
-            }
         }
+
     }
 
 }

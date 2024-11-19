@@ -1,6 +1,5 @@
 package com.jdt.routinuity.views
 
-import android.graphics.BitmapFactory
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -14,53 +13,54 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jdt.routinuity.R
+import com.jdt.routinuity.RawImageViewer
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
+import com.jdt.routinuity.views.walkthrough.AttributesSlider
 import kotlinx.coroutines.launch
 
 @Composable
 fun WalkthroughScreen(){
 
     val pages: List<@Composable () -> Unit>  = listOf(
-        {GetStarted()},
-        {GetStarted()},
+        { RawImageViewer(R.raw.hero) },
+        { AttributesSlider() },
         {GetStarted()}
     )
     val pagerState = rememberPagerState(
-        initialPage = 0,
+        initialPage = 1,
         pageCount = { pages.size }
     )
 
-
     val coroutineScope = rememberCoroutineScope()
 
-    val formCompletionState = remember { mutableStateListOf(false, false, false) }
+    val texts = listOf(
+        "Start your self improvement journey. Create new habits and remove bad habits.",
+        "You control your story. Set your own attributes to get started.",
+        "Give us a little information about yourself?"
+    )
 
-    val context = LocalContext.current
-
-    val bitmap = remember {
-        BitmapFactory.decodeStream(context.resources.openRawResource(R.raw.hero))
-    }
     val animatedColors = List(pages.size) { index ->
         animateColorAsState(
             targetValue = if (pagerState.currentPage == index) {
@@ -74,7 +74,7 @@ fun WalkthroughScreen(){
 
     val animatedSize =List(pages.size) { index ->
         animateDpAsState(
-            targetValue = if (pagerState.currentPage == index) 30.dp else 20.dp,
+            targetValue = if (pagerState.currentPage == index) 25.dp else 20.dp,
             animationSpec = tween(durationMillis = 250),
             label = ""
         ).value
@@ -88,15 +88,16 @@ fun WalkthroughScreen(){
 
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .padding(10.dp, 0.dp)
                 .pointerInput(Unit) { detectTapGestures { } }
         ) { page ->
            pages[page]()
         }
 
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth().height(250.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Box (modifier = Modifier
                 .fillMaxWidth()
@@ -120,39 +121,32 @@ fun WalkthroughScreen(){
 
                 }
             }
-            Button(
-                onClick = {
-                    coroutineScope.launch {
-                        if (pagerState.currentPage > 0) {
-                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                        }
-                    }
-                },
-                enabled = pagerState.currentPage > 0
-            ) {
-                Text("Previous")
-            }
-
-            Button(
-                onClick = {
-                    coroutineScope.launch {
-                        if (formCompletionState[pagerState.currentPage]) {
+            Spacer(modifier = Modifier.height(50.dp))
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(20.dp, 0.dp),
+               horizontalAlignment = Alignment.End
+            ){
+                Text(texts[pagerState.currentPage], style = TextStyle(textAlign = TextAlign.Center, fontSize = 18.sp))
+                Spacer(modifier = Modifier.height(30.dp))
+                Button(
+                    onClick = {
+                        coroutineScope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         }
-                    }
-                },
-                enabled = formCompletionState[pagerState.currentPage] &&
-                        pagerState.currentPage < pagerState.pageCount - 1
-            ) {
-                Text("Next")
+                    },
+                    shape = RoundedCornerShape(25f),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.background
+                    ),
+                ) {
+                    Text(if(pagerState.currentPage != (pages.size -1) ) "Next" else "Finished")
+                }
             }
         }
-//        Image(
-//            bitmap = bitmap.asImageBitmap(),
-//            contentDescription = "",
-//            modifier = Modifier.fillMaxSize(),
-//            contentScale = ContentScale.Fit
-//        )
+
     }
 }
 @Composable
