@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jdt.routinuity.views.AuthScreen
 import com.jdt.routinuity.views.DashboardScreen
 import com.jdt.routinuity.views.SplashScreen
+import com.jdt.routinuity.views.WalkthroughScreen
 
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
@@ -34,8 +35,13 @@ fun Navigation() {
                 val mode = backStackEntry.arguments?.getString("mode") ?: "login"
                 AuthScreen(mode, navController)
             }
+
             composable("dashboard") {
                 DashboardScreen(navController)
+            }
+
+            composable("walkthrough") {
+                WalkthroughScreen(navController)
             }
 
         }

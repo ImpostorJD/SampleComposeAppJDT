@@ -25,15 +25,22 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.jdt.routinuity.R
 import com.jdt.routinuity.RawImageViewer
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
@@ -41,15 +48,15 @@ import com.jdt.routinuity.views.walkthrough.AttributesSlider
 import kotlinx.coroutines.launch
 
 @Composable
-fun WalkthroughScreen(){
+fun WalkthroughScreen(navController: NavHostController) {
 
     val pages: List<@Composable () -> Unit>  = listOf(
         { RawImageViewer(R.raw.hero) },
         { AttributesSlider() },
-        {GetStarted()}
+        { }
     )
     val pagerState = rememberPagerState(
-        initialPage = 1,
+        initialPage = 0,
         pageCount = { pages.size }
     )
 
@@ -74,7 +81,7 @@ fun WalkthroughScreen(){
 
     val animatedSize =List(pages.size) { index ->
         animateDpAsState(
-            targetValue = if (pagerState.currentPage == index) 25.dp else 20.dp,
+            targetValue = if (pagerState.currentPage == index) 15.dp else 10.dp,
             animationSpec = tween(durationMillis = 250),
             label = ""
         ).value
@@ -97,7 +104,7 @@ fun WalkthroughScreen(){
         }
 
         Column(
-            modifier = Modifier.fillMaxWidth().height(250.dp),
+            modifier = Modifier.fillMaxWidth().height(200.dp),
         ) {
             Box (modifier = Modifier
                 .fillMaxWidth()
@@ -121,7 +128,7 @@ fun WalkthroughScreen(){
 
                 }
             }
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -132,6 +139,10 @@ fun WalkthroughScreen(){
                 Spacer(modifier = Modifier.height(30.dp))
                 Button(
                     onClick = {
+                        if(pagerState.currentPage == pages.size - 1){
+                            navController.navigate("dashboard")
+                            return@Button
+                        }
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         }
@@ -145,20 +156,18 @@ fun WalkthroughScreen(){
                     Text(if(pagerState.currentPage != (pages.size -1) ) "Next" else "Finished")
                 }
             }
+            Spacer(modifier = Modifier.height(10.dp))
         }
 
     }
-}
-@Composable
-fun GetStarted(){
-    Text("hello world")
 }
 
 
 @Preview
 @Composable
 fun WalkthroughScreenPreview(){
+    val navController = rememberNavController()
     RoutinuityTheme {
-        WalkthroughScreen()
+        WalkthroughScreen(navController)
     }
 }

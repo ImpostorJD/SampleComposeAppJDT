@@ -197,7 +197,7 @@ fun LoginScreen(onSignUpClick: () -> Unit, navController: NavController) {
                     Spacer(modifier = Modifier.height(25.dp))
 
                     Button(
-                        onClick = { navController.navigate("dashboard") },
+                        onClick = { navController.navigate("walkthrough") },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(25f),
                         colors = ButtonDefaults.buttonColors(
