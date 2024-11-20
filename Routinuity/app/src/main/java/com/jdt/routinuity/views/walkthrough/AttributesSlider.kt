@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jdt.routinuity.components.ColorPickerDialog
-import com.jdt.routinuity.toColor
+import com.jdt.routinuity.utils.toColor
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 
 @Composable

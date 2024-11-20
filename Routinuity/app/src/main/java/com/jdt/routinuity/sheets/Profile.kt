@@ -1,6 +1,5 @@
 package com.jdt.routinuity.sheets
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,7 +27,7 @@ import com.jdt.routinuity.R
 import com.jdt.routinuity.components.CustomHeaderSheet
 import com.jdt.routinuity.components.profile.ProfileInformationStrip
 import com.jdt.routinuity.components.profile.ProfileStat
-import com.jdt.routinuity.formatter
+import com.jdt.routinuity.utils.formatter
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 import kotlinx.coroutines.delay
 import java.time.LocalDate

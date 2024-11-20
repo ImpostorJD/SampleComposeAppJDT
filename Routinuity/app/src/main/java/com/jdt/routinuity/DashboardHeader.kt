@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.sp
 import com.jdt.routinuity.dashboard.BiDirectionalScrollableWeekCalendar
 import com.jdt.routinuity.components.shapes.BlurredCircle
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
+import com.jdt.routinuity.utils.formatter
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun DashboardHeader(

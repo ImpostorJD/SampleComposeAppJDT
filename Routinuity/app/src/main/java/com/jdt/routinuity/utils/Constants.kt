@@ -1,4 +1,4 @@
-package com.jdt.routinuity
+package com.jdt.routinuity.utils
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
@@ -11,7 +11,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import java.time.format.DateTimeFormatter
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import android.graphics.Color as AndroidColor
 
 val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd, MMM yyyy")

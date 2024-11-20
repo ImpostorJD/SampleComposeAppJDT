@@ -1,5 +1,6 @@
 package com.jdt.routinuity.views
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -32,7 +33,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -42,7 +42,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.jdt.routinuity.R
-import com.jdt.routinuity.RawImageViewer
+import com.jdt.routinuity.components.ProfileView
+import com.jdt.routinuity.utils.RawImageViewer
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 import com.jdt.routinuity.views.walkthrough.AttributesSlider
 import kotlinx.coroutines.launch
@@ -50,10 +51,23 @@ import kotlinx.coroutines.launch
 @Composable
 fun WalkthroughScreen(navController: NavHostController) {
 
-    val pages: List<@Composable () -> Unit>  = listOf(
+    var profileSubmitAction by remember { mutableStateOf<(() -> Unit)?>(null) }
+
+    val pages:  List<@Composable () -> Unit> = listOf(
         { RawImageViewer(R.raw.hero) },
         { AttributesSlider() },
-        { }
+        {  ProfileView(
+            hasParentSubmit = true,
+            onParentSubmit = {
+                if (it) {
+                    navController.navigate("dashboard")
+                }
+            },
+            onSubmitTriggered = { submitAction ->
+                profileSubmitAction = submitAction
+            }
+        )
+        }
     )
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -140,7 +154,7 @@ fun WalkthroughScreen(navController: NavHostController) {
                 Button(
                     onClick = {
                         if(pagerState.currentPage == pages.size - 1){
-                            navController.navigate("dashboard")
+                            profileSubmitAction?.invoke()
                             return@Button
                         }
                         coroutineScope.launch {

@@ -27,7 +27,7 @@ import androidx.compose.ui.window.Dialog
 import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
-import com.jdt.routinuity.toHex
+import com.jdt.routinuity.utils.toHex
 
 @Composable
 fun ColorPickerDialog(
@@ -47,8 +47,13 @@ fun ColorPickerDialog(
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Select a Color")
-
+                Text(text = "Current Color")
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Box(modifier = Modifier.size(50.dp).background(color = selectedColor))
+                }
                 HsvColorPicker(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -60,13 +65,6 @@ fun ColorPickerDialog(
                         selectedColor = colorEnvelope.color
                     }
                 )
-
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Box(modifier = Modifier.size(50.dp).background(color = selectedColor))
-                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
