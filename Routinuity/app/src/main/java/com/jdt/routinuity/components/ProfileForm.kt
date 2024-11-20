@@ -48,6 +48,7 @@ fun ProfileView(
     ){
         Text("Profile",
             style = TextStyle(
+                color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold

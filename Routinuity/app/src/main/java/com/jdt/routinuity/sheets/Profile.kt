@@ -16,8 +16,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -25,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jdt.routinuity.R
 import com.jdt.routinuity.components.CustomHeaderSheet
+import com.jdt.routinuity.components.ProfileView
 import com.jdt.routinuity.components.profile.ProfileInformationStrip
 import com.jdt.routinuity.components.profile.ProfileStat
 import com.jdt.routinuity.utils.formatter
@@ -35,7 +39,6 @@ import java.time.LocalDate
 @Composable
 fun Profile(
     onCollapse: () -> Unit,
-    setView: (String) -> Unit,
 ){
     val data = listOf(
         listOf(0f, 0f, 50f, 100f, 10f)
@@ -57,7 +60,7 @@ fun Profile(
 
     var visibleItems = remember { mutableStateListOf<Pair<String, String>>() }
 
-    var editProfile = false
+    var editProfile by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
 
@@ -95,8 +98,6 @@ fun Profile(
                             contentDescription = "",
                         )
                     }
-                }else{
-
                 }
 
             }
@@ -125,7 +126,7 @@ fun Profile(
                 }
             }
         }else{
-
+            ProfileView()
         }
 
     }
@@ -136,6 +137,6 @@ fun Profile(
 @Composable
 fun ProfilePreview(){
     RoutinuityTheme {
-        Profile(onCollapse = {}, setView = {})
+        Profile(onCollapse = {})
     }
 }

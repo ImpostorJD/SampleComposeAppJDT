@@ -31,7 +31,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.jdt.routinuity.DashboardHeader
 import com.jdt.routinuity.R
-import com.jdt.routinuity.components.ProfileView
 import com.jdt.routinuity.components.context.CategorySelector
 import com.jdt.routinuity.dashboard.HabitCard
 import com.jdt.routinuity.dashboard.MenuFloat
@@ -104,10 +103,7 @@ fun DashboardScreen(navController: NavController) {
                             }
 
                             "profile" -> {
-                                Profile(
-                                    onCollapse = { collapseModal() },
-                                    setView = { modalView = it },
-                                )
+                                Profile(onCollapse = { collapseModal() })
                             }
 
                             "settings" -> {
@@ -117,10 +113,6 @@ fun DashboardScreen(navController: NavController) {
                                         navController.navigate("splash")
                                     }
                                 )
-                            }
-
-                            "edit-profile" -> {
-                                ProfileView()
                             }
                         }
                     }
