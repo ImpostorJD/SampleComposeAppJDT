@@ -46,15 +46,18 @@ fun ProfileView(
             .background(color = MaterialTheme.colorScheme.background)
             .padding(10.dp, 8.dp)
     ){
-        Text("Profile",
-            style = TextStyle(
-                color = MaterialTheme.colorScheme.primary,
-                textAlign = TextAlign.Center,
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold
-            ),
-            modifier = Modifier.fillMaxWidth()
-        )
+        if(hasParentSubmit){
+            Text("Profile",
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = "",

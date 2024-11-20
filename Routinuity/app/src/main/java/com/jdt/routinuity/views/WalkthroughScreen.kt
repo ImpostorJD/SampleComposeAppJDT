@@ -1,6 +1,5 @@
 package com.jdt.routinuity.views
 
-import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
