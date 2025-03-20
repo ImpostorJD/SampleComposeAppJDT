@@ -50,7 +50,6 @@ fun ProfileView(
     }
 
     LaunchedEffect(name) {
-
         onValidationChanged?.invoke(validate())
 
     }
@@ -91,7 +90,7 @@ fun ProfileView(
             textStyle = TextStyle(color = MaterialTheme.colorScheme.primary),
             label = { Text(text = "Name", color = MaterialTheme.colorScheme.primary) },
             modifier = Modifier.fillMaxWidth(),
-            isError = nameError != null, // Show error highlight
+            isError = nameError != null,
             colors = TextFieldDefaults.colors(
                 cursorColor = MaterialTheme.colorScheme.primary,
                 focusedTextColor = MaterialTheme.colorScheme.primary,

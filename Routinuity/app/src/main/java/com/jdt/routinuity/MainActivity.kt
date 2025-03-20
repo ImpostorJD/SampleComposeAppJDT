@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.jdt.routinuity.components.context.Navigation
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
+import com.jdt.routinuity.utils.AppwriteService
 import com.jdt.routinuity.utils.LockScreenOrientation
 
 
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         actionBar?.hide()
+        AppwriteService.init(applicationContext)
 
         setContent {
             App()

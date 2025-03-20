@@ -1,7 +1,10 @@
 package com.jdt.routinuity.utils
 
 import android.content.Context
+import android.util.Log
 import io.appwrite.Client
+import io.appwrite.services.Databases
+
 
 class AppwriteService private constructor(private val context: Context) {
 
@@ -12,12 +15,27 @@ class AppwriteService private constructor(private val context: Context) {
      * Sets or updates the Project ID.
      * If a different Project ID is provided, the client is reinitialized.
      */
-    fun setProjectId(newProjectId: String) {
+    suspend fun setProjectId(newProjectId: String) {
+
         if (projectId != newProjectId || client == null) {
+            Log.d("appwrite", newProjectId)
             projectId = newProjectId
             client = Client(context)
                 .setEndpoint("https://cloud.appwrite.io/v1")
                 .setProject(newProjectId)
+            
+            val databases = Databases(client!!)
+            try {
+                // Try listing collections (validates project without requiring a collection)
+                val collections = databases.listDocuments(
+                    databaseId = "routinuitydb",
+                    collectionId = "default",
+                )
+                Log.d("Appwrite", "Valid Project ID. Collections: ${collections.total}")
+            } catch (e: Exception) {
+                Log.e("Appwrite", "Invalid Project ID: ${e.message}")
+                throw IllegalStateException("Invalid Project ID: ${e.message}")
+            }
         }
     }
 

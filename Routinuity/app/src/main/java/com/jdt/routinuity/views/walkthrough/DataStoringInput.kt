@@ -29,20 +29,42 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
+import com.jdt.routinuity.utils.AppwriteService
 
 @Composable
-fun DataStoringInput (onValidationChanged: (Boolean) -> Unit, provideDataGetter: ((() -> String)) -> Unit){
+fun DataStoringInput(
+    onValidationChanged: (Boolean) -> Unit,
+    provideDataGetter: ((() -> String)) -> Unit
+) {
     var projectIdInput by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    val appwriteService = remember { AppwriteService.getInstance() }
 
-    LaunchedEffect(projectIdInput) {
-        onValidationChanged(projectIdInput.isNotBlank())
+    suspend fun validate(): Boolean {
+        if(projectIdInput.isBlank()){
+            errorMessage = "ID cannot be empty"
+        }else{
+            try {
+                appwriteService.setProjectId(projectIdInput)
+                appwriteService.getClient()
+                errorMessage = null
+            } catch (e: IllegalStateException) {
+                errorMessage = "Invalid Project ID. Please check your Appwrite credentials."
+                Log.d("appwrite", errorMessage ?: "Unknown error")
+            }
+        }
 
+        return errorMessage == null
     }
 
     LaunchedEffect(Unit) {
         provideDataGetter { projectIdInput }
     }
 
+    LaunchedEffect(projectIdInput) {
+        onValidationChanged?.invoke(validate())
+
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,18 +79,21 @@ fun DataStoringInput (onValidationChanged: (Boolean) -> Unit, provideDataGetter:
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
-            "Please create an appwrite account and create a project. You will host your own server to ensure you are in control of your data.",
+            "Please create an Appwrite account and create a project. You will host your own server to ensure you are in control of your data.",
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Justify,
             style = TextStyle(fontSize = 15.sp)
         )
         Spacer(modifier = Modifier.height(10.dp))
+
+        // Input Row
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             TextField(
                 value = projectIdInput,
                 onValueChange = { input ->
@@ -76,13 +101,9 @@ fun DataStoringInput (onValidationChanged: (Boolean) -> Unit, provideDataGetter:
                     onValidationChanged(input.isNotBlank())
                 },
                 textStyle = TextStyle(color = MaterialTheme.colorScheme.primary),
-                label = {
-                    Text(
-                        text = "Project Id",
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                },
+                label = { Text("Project ID", color = MaterialTheme.colorScheme.primary) },
                 modifier = Modifier.weight(1f),
+                isError = errorMessage != null,
                 colors = TextFieldDefaults.colors(
                     cursorColor = MaterialTheme.colorScheme.primary,
                     focusedTextColor = MaterialTheme.colorScheme.primary,
@@ -93,19 +114,28 @@ fun DataStoringInput (onValidationChanged: (Boolean) -> Unit, provideDataGetter:
                     unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
                 )
             )
-
         }
 
+        // Show error message if there's an issue
+        errorMessage?.let {
+            Text(
+                text = it,
+                color = Color.Red,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(start = 8.dp, top = 4.dp)
+            )
+        }
     }
 }
 
 @Preview
 @Composable
-fun DataStoringPreview(){
+fun DataStoringPreview() {
     RoutinuityTheme {
         DataStoringInput(
-            {},
+            onValidationChanged = {},
             provideDataGetter = {}
         )
     }
 }
+

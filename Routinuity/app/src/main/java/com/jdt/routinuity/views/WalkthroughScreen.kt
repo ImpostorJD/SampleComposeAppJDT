@@ -38,7 +38,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
@@ -48,7 +47,6 @@ import com.jdt.routinuity.components.ProfileView
 import com.jdt.routinuity.utils.RawImageViewer
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 import com.jdt.routinuity.utils.DataStoreManager
-import com.jdt.routinuity.utils.DataStoreManager.Companion
 import com.jdt.routinuity.views.walkthrough.AttributesSlider
 import com.jdt.routinuity.views.walkthrough.DataStoringInput
 import kotlinx.coroutines.launch
@@ -118,9 +116,6 @@ fun WalkthroughScreen(navController: NavHostController) {
     }
 
     fun handleNextClick() {
-//        getChildDataList[pagerState.currentPage]?.invoke()?.let { data ->
-//            Log.d("WalkthroughScreen", "Page ${pagerState.currentPage} data: $data")
-//        } ?: Log.d("WalkthroughScreen", "Page ${pagerState.currentPage} getter is null")
 
         if (pagerState.currentPage == pages.size - 1) {
             coroutineScope.launch {
