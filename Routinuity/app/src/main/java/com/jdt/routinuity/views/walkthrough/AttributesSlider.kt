@@ -1,5 +1,7 @@
 package com.jdt.routinuity.views.walkthrough
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,12 +20,29 @@ import androidx.compose.ui.unit.sp
 import com.jdt.routinuity.components.ColorPickerDialog
 import com.jdt.routinuity.utils.toColor
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
+import com.jdt.routinuity.utils.DataStoreManager
+import org.json.JSONObject
 
 @Composable
-fun AttributesSlider() {
+fun AttributesSlider(provideDataGetter: ((() -> String)) -> Unit) {
    var showDialog by remember { mutableStateOf(false) }
    var selectedIndex by remember { mutableIntStateOf(-1) }
-   val attributes = remember {
+
+//   val storedAttributes by dataStoreManager.getAttributes().collectAsState(initial = listOf())
+//
+//   var attributes by remember {
+//      mutableStateOf(
+//         if (storedAttributes.isNotEmpty()) storedAttributes.map { it.toMutableList() }
+//         else mutableStateListOf(
+//            mutableStateListOf("Wisdom", "#00BCD4"),
+//            mutableStateListOf("Finesse", "#FFEB3B"),
+//            mutableStateListOf("Vitality", "#4CAF50"),
+//            mutableStateListOf("Charisma", "#F44336"),
+//            mutableStateListOf("Fortitude", "#9C27B0")
+//         )
+//      )
+//   }
+   var attributes = remember {
       mutableStateListOf(
          mutableStateListOf("Wisdom", "#00BCD4"),
          mutableStateListOf("Finesse", "#FFEB3B"),
@@ -31,6 +50,21 @@ fun AttributesSlider() {
          mutableStateListOf("Charisma", "#F44336"),
          mutableStateListOf("Fortitude", "#9C27B0")
       )
+   }
+
+   fun getData(): String {
+      val jsonArray = attributes.map { attr ->
+         JSONObject().apply {
+            put("name", attr[0])
+            put("color", attr[1])
+         }
+      }
+      return jsonArray.toString()
+   }
+
+   LaunchedEffect(attributes) {
+      provideDataGetter { getData() }
+
    }
 
    Column(
@@ -57,7 +91,7 @@ fun AttributesSlider() {
          "Attributes",
          modifier = Modifier.fillMaxWidth(),
          textAlign = TextAlign.Center,
-         style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp)
+         style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
       )
 
       LazyColumn(
@@ -118,6 +152,8 @@ fun AttributesSlider() {
 @Composable
 fun AttributesSliderPreview(){
     RoutinuityTheme {
-       AttributesSlider()
+//       val fakeContext = android.content.ContextWrapper(null)
+//       AttributesSlider(DataStoreManager(fakeContext))
+       AttributesSlider({ })
     }
 }

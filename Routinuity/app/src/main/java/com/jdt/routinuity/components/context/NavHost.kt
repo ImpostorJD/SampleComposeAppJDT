@@ -31,10 +31,10 @@ fun Navigation() {
             composable("splash") {
                 SplashScreen(navController)
             }
-            composable("auth/{mode}") { backStackEntry ->
-                val mode = backStackEntry.arguments?.getString("mode") ?: "login"
-                AuthScreen(mode, navController)
-            }
+//            composable("auth/{mode}") { backStackEntry ->
+//                val mode = backStackEntry.arguments?.getString("mode") ?: "login"
+//                AuthScreen(mode, navController)
+//            }
 
             composable("dashboard") {
                 DashboardScreen(navController)

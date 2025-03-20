@@ -54,42 +54,43 @@ fun SplashScreen(navController: NavController){
         Spacer(modifier = Modifier.height(150.dp))
         Button(
             onClick = {
-                navController.navigate("auth/Login")
+//                navController.navigate("auth/Login")
+                navController.navigate("walkthrough")
             },
             Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(vertical = 15.dp),
             shape = RoundedCornerShape(25f)
         ) {
             Text(
-                "Login".uppercase(),
+                "Continue".uppercase(),
                 color = MaterialTheme.colorScheme.secondary,
                 style = TextStyle(fontSize =  15.sp),
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            onClick = {
-                navController.navigate("auth/Register")
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(
-                    width = 2.dp,
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = RoundedCornerShape(25f)
-                ),
-            contentPadding = PaddingValues(vertical = 15.dp),
-            shape = RoundedCornerShape(25f),
-            colors = ButtonDefaults.buttonColors(
-                containerColor =  MaterialTheme.colorScheme.background,
-                contentColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(
-                text = "Sign Up".uppercase(),
-                style = TextStyle(fontSize = 15.sp),
-            )
-        }
+//        Spacer(modifier = Modifier.height(20.dp))
+//        Button(
+//            onClick = {
+//                navController.navigate("auth/Register")
+//            },
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .border(
+//                    width = 2.dp,
+//                    color = MaterialTheme.colorScheme.primary,
+//                    shape = RoundedCornerShape(25f)
+//                ),
+//            contentPadding = PaddingValues(vertical = 15.dp),
+//            shape = RoundedCornerShape(25f),
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor =  MaterialTheme.colorScheme.background,
+//                contentColor = MaterialTheme.colorScheme.primary
+//            )
+//        ) {
+//            Text(
+//                text = "Sign Up".uppercase(),
+//                style = TextStyle(fontSize = 15.sp),
+//            )
+//        }
 
     }
 }

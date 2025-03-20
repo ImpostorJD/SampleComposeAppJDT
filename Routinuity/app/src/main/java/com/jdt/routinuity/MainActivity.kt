@@ -13,22 +13,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.jdt.routinuity.components.context.Navigation
-import com.jdt.routinuity.utils.AppwriteCon
 import com.jdt.routinuity.ui.theme.RoutinuityTheme
 import com.jdt.routinuity.utils.LockScreenOrientation
 
-import io.appwrite.services.Databases
 
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var databases : Databases
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         actionBar?.hide()
 
-        databases = AppwriteCon.getInstance(this).getDatabases()
         setContent {
             App()
         }

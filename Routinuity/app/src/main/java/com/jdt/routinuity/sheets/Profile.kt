@@ -126,7 +126,10 @@ fun Profile(
                 }
             }
         }else{
-            ProfileView()
+            ProfileView(
+                hasParentSubmit = false,
+                onParentSubmit = {}
+            )
         }
 
     }
